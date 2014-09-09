@@ -1,0 +1,120 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class GUI {
+
+	public static void main(String[] args) {
+
+		JFrame frame = new JFrame("Cryptography");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		EncryptPanel panel = new EncryptPanel();
+		frame.getContentPane().add(panel);
+		frame.setSize(400, 300);
+		frame.setVisible(true);
+
+	}
+}
+
+class EncryptPanel extends JPanel {
+
+	private JTextField message;
+	private JButton encrypt;
+	private JButton decrypt;
+	private JTextField result;
+
+	EncryptPanel() {
+
+		setLayout(new GridBagLayout());
+		message = new JTextField();
+		encrypt = new JButton("Encrypt");
+		decrypt = new JButton("Decrypt");
+		result = new JTextField();
+		result.setEditable(false);
+		encrypt.addActionListener(new ButtonListener());
+		decrypt.addActionListener(new ButtonListener());
+
+		GridBagConstraints c = new GridBagConstraints();
+
+		c.fill = GridBagConstraints.BOTH;			//Grow both horizontally and vertically when enlarged
+		c.ipady = 70;					//Makes it tall
+		c.gridwidth = 3;
+		c.ipadx = 280;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.weightx = 1.0;
+		add(message, c);
+
+		c.fill = GridBagConstraints.BOTH;			//Grow both horizontally and vertically when enlarged
+		c.ipady = 70;					//Makes it tall
+		c.gridx = 0;
+		c.ipadx = 280;
+		c.gridy = 2;
+		c.weightx = 1.0;
+		add(result, c);
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 0;
+		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.anchor = GridBagConstraints.CENTER;
+		c.gridx = 1;
+		c.gridy = 1;
+		c.weighty = 0.5;
+		c.insets = new Insets(10,50,10,0);
+		add(encrypt, c);
+
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.ipady = 0;
+		c.gridwidth = 1;
+		c.ipadx = 0;
+		c.anchor = GridBagConstraints.CENTER;
+		c.gridx = 2;
+		c.gridy = 1;
+		c.weighty = 0.5;
+		c.insets = new Insets(10,50,10,50);
+		add(decrypt, c);
+
+	}
+
+	private class ButtonListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+
+			String second = "";
+			String original = message.getText();
+			char[] letters = original.toCharArray();
+
+			if(e.getSource() == encrypt) {
+				for(int i = 0; i < original.length(); i++) {
+
+					letters[i] = (char)(letters[i] + 4);
+				}
+				
+				for(int i = 0; i < letters.length; i++) {
+
+					second += letters[i];
+				}
+
+				result.setText(second);
+			}
+			
+			if(e.getSource() == decrypt) {
+				for(int i = 0; i < original.length(); i++) {
+
+					letters[i] = (char)(letters[i] - 4);
+				}
+				
+				for(int i = 0; i < letters.length; i++) {
+
+					second += letters[i];
+				}
+
+				result.setText(second);
+			}
+
+
+		}
+	}
+}
